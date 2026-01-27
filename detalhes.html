@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Imóvel | Bem Viver Imóveis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fas fa-home"></i> Bem Viver
+        </a>
+        <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Início</a></li>
+          <li><a href=imoveis.html>Imóveis</a></li>
+          <li><a href="simulacao.html" class="btn btn-primary">Simular</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="details-container" class="details-page-wrapper">
+    <div style="text-align:center; padding: 100px;">
+      <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
+  </main>
+
+  <div id="scheduleModal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+      <span class="close-modal" id="closeSchedule">&times;</span>
+      <div class="modal-header" style="height:100px; background: var(--primary-color); display:flex; align-items:center; justify-content:center;">
+        <h2 style="color:#fff; margin:0; font-size:1.4rem;"><i class="far fa-calendar-alt"></i> Agendar Visita</h2>
+      </div>
+      <div class="modal-body">
+        <p class="schedule-subtitle">Interesse em: <strong id="schedulePropertyTitle">Imóvel</strong></p>
+        <form id="scheduleForm">
+          <div class="form-group">
+            <label for="schedName">Seu nome</label>
+            <input type="text" id="schedName" required placeholder="Nome completo">
+          </div>
+          <div class="form-group">
+            <label for="schedDate">Data preferida</label>
+            <input type="date" id="schedDate" required>
+          </div>
+          <div class="form-group">
+            <label for="schedTime">Horário</label>
+            <select id="schedTime" required>
+              <option value="09:00">Manhã (09:00)</option>
+              <option value="14:00">Tarde (14:00)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px; background:#25D366; border-color:#25D366;">
+            <i class="fab fa-whatsapp"></i> Confirmar no WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Bem Viver Imóveis.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

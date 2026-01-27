@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulação de Financiamento | Bem Viver Imóveis</title>
+
+  <meta name="description" content="Simule o financiamento do seu imóvel e descubra o valor das parcelas.">
+  <link rel="icon" href="favicon.ico">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Bem Viver Home">
+          <i class="fas fa-home"></i> Bem Viver
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="imoveis.html">Imóveis</a></li>
+          <li><a href="index.html#contact">Contato</a></li>
+          <li><a href="simulacao.html" class="btn btn-primary">Simular Financiamento</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="simulation-hero">
+    <div class="sim-overlay"></div>
+    <div class="container">
+      
+      <div class="sim-header">
+        <h1>Planeje seu futuro financeiro</h1>
+        <p>Simule as condições ideais para o seu bolso e realize o sonho da casa própria.</p>
+      </div>
+
+      <div class="calculator-card">
+        <div class="calc-form">
+          <h3>Calcule sua parcela</h3>
+          
+          <form id="financingForm">
+            <div class="form-group">
+              <label>Valor do imóvel</label>
+              <div class="input-with-prefix">
+                <span>R$</span>
+                <input type="number" id="propertyValue" value="450000" min="50000" step="1000">
+              </div>
+              <input type="range" id="propertyRange" min="50000" max="2000000" step="5000" value="450000" class="slider">
+            </div>
+
+            <div class="form-group">
+              <label>Valor da entrada</label>
+              <div class="input-with-prefix">
+                <span>R$</span>
+                <input type="number" id="downPayment" value="90000" min="0" step="1000">
+              </div>
+              <input type="range" id="downRange" min="0" max="1000000" step="1000" value="90000" class="slider">
+              <small>Sugerimos ao menos 20% de entrada.</small>
+            </div>
+
+            <div class="form-row-split">
+              <div class="form-group">
+                <label>Juros anual (%)</label>
+                <input type="number" id="interestRate" value="9.5" step="0.1">
+              </div>
+              <div class="form-group">
+                <label>Prazo (anos)</label>
+                <input type="number" id="years" value="30" max="35">
+                <input type="range" id="yearsRange" min="5" max="35" step="1" value="30" class="slider">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Recalcular</button>
+          </form>
+        </div>
+
+        <div class="calc-results">
+          <div class="result-content">
+            <span class="result-label">Parcela estimada</span>
+            <div class="big-price" id="resMonthlyPayment">R$ 0,00</div>
+            
+            <div class="result-divider"></div>
+
+            <ul class="result-details">
+              <li>
+                <span>Valor financiado</span>
+                <strong id="resLoanAmount">R$ 0,00</strong>
+              </li>
+              <li>
+                <span>Renda sugerida</span>
+                <strong id="resMinIncome">R$ 0,00</strong>
+              </li>
+              <li>
+                <span>Prazo total</span>
+                <strong id="resMonths">0 meses</strong>
+              </li>
+            </ul>
+
+            <div class="result-alert">
+              <i class="fas fa-info-circle"></i>
+              <p>Valores aproximados (Sistema Price). Sujeito a análise de crédito.</p>
+            </div>
+            
+            <a href="index.html#contact" class="btn btn-outline-white">Falar com Especialista</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-home"></i> Bem Viver
+      </a>
+      <p>&copy; 2025 Bem Viver Imóveis. Todos os direitos reservados. |
+        <a href="politica-privacidade.html" style="color: rgba(255,255,255,0.7);">Política de Privacidade</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="simulacao.js"></script>
+</body>
+</html>

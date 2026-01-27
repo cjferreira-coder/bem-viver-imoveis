@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bem Viver Imóveis | O lar onde sua melhor história começa</title>
+  <meta name="description" content="Bem Viver Imóveis: casas e apartamentos com financiamento facilitado em Natal/RN.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Bem Viver Home">
+          <i class="fas fa-home"></i> Bem Viver
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Início</a></li>
+          <li><a href="#about">Sobre</a></li>
+          <li><a href="imoveis.html">Imóveis</a></li>
+          <li><a href="#services">Serviços</a></li>
+          <li><a href="#contact">Contato</a></li>
+          <li><a href="simulacao.html" class="btn btn-primary">Simular</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag">Bem-vindo à Bem Viver</span>
+      <h1>O cenário perfeito para a <br><span>sua nova história</span></h1>
+      <p>Milhares de opções de casas e apartamentos com financiamento facilitado.</p>
+
+      <div class="hero-search">
+        <div class="search-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="search-input">
+            <label for="searchLocation">Localização</label>
+            <input type="text" id="searchLocation" placeholder="Bairro ou Cidade..." autocomplete="off">
+          </div>
+        </div>
+        <div class="search-item">
+          <i class="fas fa-home"></i>
+          <div class="search-input">
+            <label for="searchType">Tipo</label>
+            <select id="searchType">
+              <option value="all">Qualquer</option>
+              <option value="casa">Casa</option>
+              <option value="apartamento">Apartamento</option>
+              <option value="sobrado">Sobrado</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-search" id="btnSearch">
+          <i class="fas fa-search"></i> Buscar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about-premium">
+    <div class="container">
+      <div class="about-wrapper">
+        <div class="about-image-comp">
+          <div class="pattern-grid"></div> 
+          <div class="main-image-frame">
+            <img src="hero-bg.jpg" alt="Imóvel de alto padrão" loading="lazy">
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-award"></i></div>
+            <div class="stat-text">
+              <strong>Top 10</strong>
+              <span>Imobiliárias do RN</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-text-content">
+          <span class="pre-title">Nossa Essência</span>
+          <h2>Muito mais que <br><span class="highlight">metros quadrados</span></h2>
+          <p class="intro-text">
+            Não vendemos apenas imóveis; fazemos a curadoria do cenário onde suas melhores memórias nascem.
+          </p>
+          <div class="features-list">
+            <div class="feature-row">
+              <div class="f-icon"><i class="far fa-smile"></i></div>
+              <div class="f-info"><h4>Atendimento Humanizado</h4><p>Ouvimos sua história para encontrar o lar certo.</p></div>
+            </div>
+            <div class="feature-row">
+              <div class="f-icon"><i class="fas fa-search-dollar"></i></div>
+              <div class="f-info"><h4>Transparência Total</h4><p>Processos jurídicos claros e seguros.</p></div>
+            </div>
+          </div>
+          <a href="#contact" class="btn btn-primary btn-lg">Falar com consultor</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="properties">
+    <div class="container">
+      <div class="section-title">Imóveis em destaque</div>
+      <p class="section-subtitle">Seleção com ótimo custo-benefício em Natal e região.</p>
+      
+      <div class="properties-grid" id="propertiesGrid"></div>
+
+      <div style="text-align:center; margin-top:50px;">
+        <a href="imoveis.html" class="btn btn-secondary">Ver todos os imóveis</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-premium">
+    <div class="cta-overlay"></div>
+    <div class="container">
+      <div class="cta-content">
+        <h2>Pronto para mudar de vida?</h2>
+        <p>O cenário da sua nova história está a um clique de distância.</p>
+        <a href="#contact" class="btn btn-light-pulse">Quero agendar visita</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-modern-section">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info-box">
+          <h3>Fale conosco</h3>
+          <p class="info-desc">Estamos prontos para atender você.</p>
+          <div class="info-item">
+            <div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div>
+            <div><strong>Nosso Escritório</strong><span>Rua das Flores, 123 - Tirol</span></div>
+          </div>
+          <div class="info-item">
+            <div class="icon-circle"><i class="fas fa-phone-alt"></i></div>
+            <div><strong>Telefone</strong><span>(84) 4002-8922</span></div>
+          </div>
+          <div class="social-row">
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+
+        <div class="contact-form-box">
+          <h3>Envie uma mensagem</h3>
+          <form id="contactForm">
+            <div class="input-group">
+              <label for="name">Nome completo</label>
+              <input type="text" id="name" required placeholder="Digite seu nome">
+            </div>
+            <div class="input-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" required placeholder="seu@email.com">
+            </div>
+            <div class="input-group">
+              <label for="message">Mensagem</label>
+              <textarea id="message" rows="4" required placeholder="Gostaria de saber mais sobre..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+              Enviar Mensagem <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <a href="index.html" class="logo"><i class="fas fa-home"></i> Bem Viver</a>
+      <p>&copy; 2025 Bem Viver Imóveis. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/558499998888" class="whatsapp-float" target="_blank" 
+     style="position:fixed; bottom:20px; left:20px; background:#25D366; color:white; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; z-index:1000; box-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <div id="scheduleModal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header" style="height:100px; background: var(--primary-color); display:flex; align-items:center; justify-content:center;">
+        <h2 style="color:#fff; margin:0; font-size:1.4rem;"><i class="far fa-calendar-alt"></i> Agendar Visita</h2>
+      </div>
+      <div class="modal-body">
+        <p class="schedule-subtitle">Interesse em: <strong id="schedulePropertyTitle">Imóvel</strong></p>
+        <form id="scheduleForm">
+          <div class="form-group">
+            <label for="schedName">Seu nome</label>
+            <input type="text" id="schedName" required placeholder="Nome completo">
+          </div>
+          <div class="form-group">
+            <label for="schedDate">Data preferida</label>
+            <input type="date" id="schedDate" required>
+          </div>
+          <div class="form-group">
+            <label for="schedTime">Horário</label>
+            <select id="schedTime" required>
+              <option value="09:00">Manhã (09:00)</option>
+              <option value="14:00">Tarde (14:00)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px; background:#25D366; border-color:#25D366;">
+            <i class="fab fa-whatsapp"></i> Confirmar no WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

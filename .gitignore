@@ -1,0 +1,12 @@
+# Ignorar arquivos do sistema e editores
+.vscode/
+__pycache__/
+*.pyc
+
+# Ignorar banco de dados (Geralmente não subimos o banco real, só o script de criar)
+backend/imoveis.db
+
+# Ignorar ambientes virtuais do Python (se você criar um no futuro)
+venv/
+env/
+.env
