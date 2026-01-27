@@ -1,7 +1,15 @@
 import sqlite3
 import json
 
-# Dados iniciais (Seed)
+# URL do Placeholder Cinza (Gera uma imagem cinza automaticamente)
+# Formato: https://via.placeholder.com/LARGURAxALTURA/COR_FUNDO/COR_TEXTO?text=TEXTO
+def get_gray_image(text="Foto do Imóvel"):
+    return f"https://via.placeholder.com/1200x800/cccccc/666666?text={text}"
+
+def get_gray_plan(text="Planta Baixa"):
+    return f"https://via.placeholder.com/800x600/e0e0e0/333333?text={text}"
+
+# DADOS INICIAIS (SEED) - Agora com Imagens Cinzas (Placeholders)
 PROPERTIES = [
   {
     "id": "bv-001",
@@ -12,15 +20,20 @@ PROPERTIES = [
     "address": "Av. Eng. Roberto Freire, 9000 - Ponta Negra",
     "bedrooms": 3, "bathrooms": 2, "area": 95, "parking": 2,
     "images": [
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200",
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200",
-      "https://images.unsplash.com/photo-1484154218962-a1c002085d2f?w=1200",
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200",
-      "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1200"
+      get_gray_image("Sala de Estar"),
+      get_gray_image("Vista Mar"),
+      get_gray_image("Cozinha"),
+      get_gray_image("Suíte Principal"),
+      get_gray_image("Varanda Gourmet")
+    ],
+    "plans": [
+        get_gray_plan("Planta Humanizada"),
+        get_gray_plan("Planta Técnica")
     ],
     "badge": "Exclusivo",
     "features": ["Varanda gourmet", "Academia", "Piscina", "Portaria 24h", "Vista Mar", "Salão de Festas"],
-    "description": "Desfrute do melhor de Ponta Negra neste apartamento espetacular. Com vista eterna para o mar."
+    "description": "Desfrute do melhor de Ponta Negra neste apartamento espetacular. Com vista eterna para o mar.",
+    "bus_lines": ["L-46", "L-54", "O-83", "N-73"]
   },
   {
     "id": "bv-002",
@@ -31,12 +44,19 @@ PROPERTIES = [
     "address": "Rua Ângelo Varela, 450 - Tirol",
     "bedrooms": 3, "bathrooms": 3, "area": 140, "parking": 2,
     "images": [
-      "https://images.unsplash.com/photo-1600607687920-4ce0a1c1d4b6?w=1200",
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200"
+      get_gray_image("Fachada da Casa"),
+      get_gray_image("Sala de Jantar"),
+      get_gray_image("Cozinha Ampla"),
+      get_gray_image("Quintal"),
+      get_gray_image("Quarto 1")
+    ],
+    "plans": [
+        get_gray_plan("Distribuição Térrea")
     ],
     "badge": "Novo",
     "features": ["Quintal amplo", "Escritório", "Suíte", "Rua tranquila", "Cerca Elétrica", "Jardim"],
-    "description": "Casa térrea totalmente reformada no coração do Tirol."
+    "description": "Casa térrea totalmente reformada no coração do Tirol.",
+    "bus_lines": ["L-37", "O-33", "O-40"]
   },
   {
     "id": "bv-003",
@@ -47,11 +67,20 @@ PROPERTIES = [
     "address": "Rua das Amapoulas, 120 - Capim Macio",
     "bedrooms": 4, "bathrooms": 4, "area": 210, "parking": 3,
     "images": [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200"
+      get_gray_image("Fachada Moderna"),
+      get_gray_image("Área de Lazer"),
+      get_gray_image("Sala Pé Direito Duplo"),
+      get_gray_image("Suíte Master"),
+      get_gray_image("Closet")
+    ],
+    "plans": [
+       get_gray_plan("Planta Térreo"),
+       get_gray_plan("Planta Superior")
     ],
     "badge": "Premium", 
     "features": ["Energia Solar", "Piscina Privativa", "Churrasqueira", "Pé direito duplo", "Closet"], 
-    "description": "Alto padrão em localização privilegiada."
+    "description": "Alto padrão em localização privilegiada.",
+    "bus_lines": ["L-52", "L-51", "O-83"]
   },
   {
     "id": "bv-004",
@@ -62,20 +91,30 @@ PROPERTIES = [
     "address": "Av. Prudente de Morais, 3000 - Lagoa Nova",
     "bedrooms": 2, "bathrooms": 1, "area": 60, "parking": 1,
     "images": [
-      "https://images.unsplash.com/photo-1505691723518-36a5ac3b2b8f?w=1200"
+      get_gray_image("Sala Integrada"),
+      get_gray_image("Quarto Casal"),
+      get_gray_image("Banheiro Social"),
+      get_gray_image("Cozinha Americana"),
+      get_gray_image("Área de Serviço")
+    ],
+    "plans": [
+        get_gray_plan("Planta Baixa")
     ],
     "badge": "Oportunidade", 
     "features": ["Elevador", "Playground", "Salão de Festas", "Portaria Virtual"], 
-    "description": "Ideal para investimento."
+    "description": "Ideal para investimento.",
+    "bus_lines": ["O-33", "N-35", "L-50", "O-24"]
   }
 ]
 
 connection = sqlite3.connect('imoveis.db')
 cursor = connection.cursor()
 
-# 1. Cria a Tabela
+cursor.execute('DROP TABLE IF EXISTS imoveis')
+
+# Recria a tabela com todos os campos necessários
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS imoveis (
+    CREATE TABLE imoveis (
         id TEXT PRIMARY KEY,
         title TEXT,
         type TEXT,
@@ -88,26 +127,28 @@ cursor.execute('''
         parking INTEGER,
         badge TEXT,
         description TEXT,
-        images TEXT,   -- Vamos salvar as listas como texto JSON
-        features TEXT  -- Vamos salvar as listas como texto JSON
+        images TEXT,   
+        features TEXT,
+        bus_lines TEXT,
+        plans TEXT
     )
 ''')
 
-# 2. Insere os dados
+print("Reiniciando banco com imagens CINZAS (Placeholders)...")
 for p in PROPERTIES:
-    # Pequeno truque: convertemos listas (images, features) para texto (JSON string) antes de salvar
     images_str = json.dumps(p['images'])
     features_str = json.dumps(p['features'])
+    bus_str = json.dumps(p.get('bus_lines', []))
+    plans_str = json.dumps(p.get('plans', []))
     
     cursor.execute('''
-        INSERT OR REPLACE INTO imoveis VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        INSERT INTO imoveis VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     ''', (
         p['id'], p['title'], p['type'], p['price'], p['location'], p['address'],
         p['bedrooms'], p['bathrooms'], p['area'], p['parking'], p['badge'], 
-        p['description'], images_str, features_str
+        p['description'], images_str, features_str, bus_str, plans_str
     ))
 
 connection.commit()
 connection.close()
-
-print("Banco de dados 'imoveis.db' criado com sucesso!")
+print("✅ Banco atualizado com imagens cinzas! Execute: python -m uvicorn main:app --reload")

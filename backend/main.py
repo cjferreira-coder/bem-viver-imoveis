@@ -1,57 +1,75 @@
 import sqlite3
 import json
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware # Importante!
 
 app = FastAPI()
 
-origins = ["*"]
+# --- CONFIGURAÇÃO DO CORS (A CORREÇÃO ESTÁ AQUI) ---
+# Isso libera o acesso para o seu Front-end conversar com o Back-end
+origins = [
+    "http://127.0.0.1:5500",
+    "http://127.0.0.1:5501",
+    "http://127.0.0.1:5502", # Porta do seu Live Server
+    "http://localhost:5500",
+    "http://localhost:5501",
+    "http://localhost:5502",
+    "*" # Libera geral (útil para desenvolvimento)
+]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"], # Permite GET, POST, etc.
     allow_headers=["*"],
 )
+# ---------------------------------------------------
 
-# --- Função Auxiliar para Conectar no Banco ---
 def get_db_connection():
     conn = sqlite3.connect('imoveis.db')
-    # Isso faz o SQLite devolver as colunas pelo nome (tipo dicionário), não só números
     conn.row_factory = sqlite3.Row 
     return conn
 
-# --- Função Auxiliar para Formatar o Imóvel ---
 def dict_from_row(row):
-    """
-    O banco devolve texto nas colunas 'images' e 'features'.
-    Precisamos converter de volta para listas do Python.
-    """
     item = dict(row)
-    item['images'] = json.loads(item['images'])     # Converte texto '[...]' para lista real
-    item['features'] = json.loads(item['features']) # Converte texto '[...]' para lista real
+    # Converte string JSON para lista Python
+    item['images'] = json.loads(item['images'])
+    item['features'] = json.loads(item['features'])
+    
+    # Tratamento seguro para bus_lines
+    if 'bus_lines' in item and item['bus_lines']:
+        item['bus_lines'] = json.loads(item['bus_lines'])
+    else:
+        item['bus_lines'] = []
+
+    # Tratamento seguro para plans (plantas)
+    if 'plans' in item and item['plans']:
+        item['plans'] = json.loads(item['plans'])
+    else:
+        item['plans'] = []
+        
     return item
 
 @app.get("/")
 def read_root():
-    return {"status": "API Conectada ao SQLite 🗄️"}
+    return {"status": "API Bem Viver Online 🚀"}
 
 @app.get("/api/properties")
 def get_properties():
-    conn = get_db_connection()
-    # QUERY SQL: Selecione tudo da tabela imoveis
-    properties_rows = conn.execute('SELECT * FROM imoveis').fetchall()
-    conn.close()
-    
-    # Converte cada linha do banco para o formato bonitinho que o site espera
-    results = [dict_from_row(row) for row in properties_rows]
-    return results
+    try:
+        conn = get_db_connection()
+        properties_rows = conn.execute('SELECT * FROM imoveis').fetchall()
+        conn.close()
+        results = [dict_from_row(row) for row in properties_rows]
+        return results
+    except Exception as e:
+        print(f"Erro no backend: {e}")
+        return []
 
 @app.get("/api/properties/{property_id}")
 def get_property(property_id: str):
     conn = get_db_connection()
-    # QUERY SQL: Selecione onde o ID for igual ao que o usuário pediu
     row = conn.execute('SELECT * FROM imoveis WHERE id = ?', (property_id,)).fetchone()
     conn.close()
     
