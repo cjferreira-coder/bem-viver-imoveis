@@ -1,39 +1,32 @@
 /* =========================================
-   Bem Viver Imóveis - Integração Python (Full Stack)
+   Bem Viver Imóveis - Full Stack (Final com Plantas)
    ========================================= */
 
-// Aponta para o seu servidor Python que está rodando na janela preta
 const API_URL = "http://127.0.0.1:8000/api/properties";
-
-// A lista agora começa vazia. O Python vai preenchê-la.
 let PROPERTIES = []; 
 
 const fmtBRL = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-// --- 1. FUNÇÃO PARA BUSCAR TODOS OS IMÓVEIS (GET) ---
+// --- 1. FETCH API (Busca dados do Python) ---
 async function fetchProperties() {
   try {
     const response = await fetch(API_URL);
     if (!response.ok) throw new Error('Erro ao conectar com a API');
-    
-    // Transforma o JSON bruto do Python em objetos JavaScript
     PROPERTIES = await response.json(); 
     return PROPERTIES;
   } catch (error) {
-    console.error("Erro de conexão:", error);
-    // Mostra erro na tela se o servidor Python estiver desligado
+    console.error("Erro:", error);
     const grid = document.getElementById('propertiesGrid');
     if(grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:red;">
       <i class="fas fa-server fa-2x"></i><br><br>
-      Erro ao conectar com o servidor.<br>Verifique se o terminal do Python está aberto.
+      Erro ao conectar com o servidor Python.<br>Verifique se o terminal está rodando.
     </div>`;
     return [];
   }
 }
 
-// --- RENDERIZAÇÃO DE CARDS (Visualização na Home/Busca) ---
+// --- 2. RENDERIZAÇÃO DA HOME (Cards) ---
 function createCard(p) {
-  // Garante que pegamos a primeira imagem ou uma padrão se estiver vazio
   const imgCover = p.images && p.images.length > 0 ? p.images[0] : 'placeholder.jpg';
   
   return `
@@ -76,63 +69,105 @@ function renderGrid(list, elementId = 'propertiesGrid') {
   }
 }
 
-// --- FILTROS DE BUSCA (Front-end Filtering) ---
-function applySearchFilters() {
-  const loc = (document.getElementById('filterLocation')?.value || '').toLowerCase();
-  const type = document.getElementById('filterType')?.value || 'all';
-  const bed = parseInt(document.getElementById('filterBedrooms')?.value || '0');
-  const price = parseInt(document.getElementById('filterPrice')?.value || '0');
-  
-  const filtered = PROPERTIES.filter(p => {
-    const mLoc = p.location.toLowerCase().includes(loc) || p.title.toLowerCase().includes(loc);
-    const mType = type === 'all' || p.type === type;
-    const mBed = bed === 0 || p.bedrooms >= bed;
-    const mPrice = price === 0 || p.price <= price;
-    return mLoc && mType && mBed && mPrice;
-  });
-  
-  renderGrid(filtered);
-}
-
-// --- 2. PÁGINA DE DETALHES (Busca Individual por ID) ---
+// --- 3. PÁGINA DE DETALHES (Com Plantas, Transporte e Recomendações) ---
 async function renderDetailsPage() {
   const container = document.getElementById('details-container');
   if (!container) return; 
 
-  // Pega o ID da URL (ex: detalhes.html?id=bv-001)
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
 
   try {
-      // Vai no Python buscar SÓ esse imóvel
       const response = await fetch(`${API_URL}/${id}`);
       if (!response.ok) throw new Error('Imóvel não encontrado');
       
       const p = await response.json();
-
       document.title = `${p.title} | Bem Viver Imóveis`;
 
-      // Monta HTML da Galeria
+      // --- Mosaico de Imagens ---
+      let displayImages = [...p.images];
+      while (displayImages.length < 5) displayImages.push(displayImages[displayImages.length - 1] || 'placeholder.jpg');
+      displayImages = displayImages.slice(0, 5);
+
       const galleryHTML = `
-        <div class="gallery-grid">
-          <div class="gallery-main">
-            <img src="${p.images[0]}" alt="Foto Principal" id="mainImg">
-          </div>
-          <div class="gallery-thumbs">
-            ${p.images.slice(1, 5).map(img => `<img src="${img}" alt="Foto detalhe" onclick="changeMainImage(this.src)">`).join('')}
-          </div>
+        <div class="gallery-mosaic">
+          ${displayImages.map((img, index) => `
+            <div class="gallery-item" onclick="openPhotoModal('${img}')">
+              <img src="${img}" alt="Foto ${index + 1}">
+            </div>
+          `).join('')}
         </div>
       `;
 
-      // Monta HTML das Características
-      const featuresHTML = p.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('');
+      // --- Features ---
+      const getIcon = (text) => {
+        const t = text.toLowerCase();
+        if (t.includes('piscina')) return 'fa-water';
+        if (t.includes('academia')) return 'fa-dumbbell';
+        if (t.includes('churrasqueira')) return 'fa-fire';
+        if (t.includes('festa')) return 'fa-glass-cheers';
+        if (t.includes('varanda')) return 'fa-umbrella-beach';
+        if (t.includes('portaria')) return 'fa-user-shield';
+        if (t.includes('solar')) return 'fa-solar-panel';
+        return 'fa-check';
+      };
+      const featuresHTML = p.features.map(f => `
+        <div class="feature-pill"><i class="fas ${getIcon(f)}"></i><span>${f}</span></div>
+      `).join('');
 
-      // Injeta tudo na página
+      // --- Plantas ---
+      const plans = p.plans && p.plans.length > 0 ? p.plans : [];
+      let plansHTML = '';
+      if (plans.length > 0) {
+        plansHTML = `
+          <div class="info-block">
+            <h3>Plantas e Distribuição</h3>
+            <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Clique na planta para ampliar.</p>
+            <div class="plans-grid">
+              ${plans.map((planUrl, idx) => `
+                <div class="plan-card" onclick="openPhotoModal('${planUrl}')">
+                  <img src="${planUrl}" alt="Planta ${idx + 1}">
+                  <div class="plan-overlay"><i class="fas fa-search-plus"></i></div>
+                  <div class="plan-label">Opção ${idx + 1}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Transporte ---
+      const busLines = p.bus_lines && p.bus_lines.length > 0 ? p.bus_lines : [];
+      let transportHTML = '';
+      if (busLines.length > 0) {
+        transportHTML = `
+          <div class="transport-section">
+            <div class="transport-header"><i class="fas fa-bus-alt"></i><h3>Transporte Público</h3></div>
+            <p style="margin-bottom:15px; font-size:0.9rem; color:#666;">Linhas num raio de 500m:</p>
+            <div class="bus-lines-grid">
+              ${busLines.map(line => `<div class="bus-tag"><i class="fas fa-bus"></i> ${line}</div>`).join('')}
+            </div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.address)}&travelmode=transit" target="_blank" class="btn-maps-route">
+              <i class="fas fa-map-marked-alt"></i> Ver rotas
+            </a>
+          </div>`;
+      }
+
+      // --- Recomendações ---
+      let related = PROPERTIES.filter(item => item.id !== p.id && item.type === p.type);
+      if (related.length === 0) related = PROPERTIES.filter(item => item.id !== p.id);
+      related = related.slice(0, 3);
+      const relatedHTML = related.map(r => `
+        <a href="detalhes.html?id=${r.id}" class="mini-card">
+          <img src="${r.images[0]}" alt="${r.title}">
+          <div class="mini-card-info"><h4>${r.title}</h4><span>${fmtBRL(r.price)}</span><small>${r.location.split(',')[0]}</small></div>
+        </a>`).join('');
+
       container.innerHTML = `
         <div class="container">
           <div class="details-header">
             <span class="detail-tag">${p.type}</span>
-            <h1>${p.title}</h1>
+            <h1 style="margin-top:10px;">${p.title}</h1>
             <p class="detail-location"><i class="fas fa-map-marker-alt"></i> ${p.address}</p>
           </div>
 
@@ -141,20 +176,18 @@ async function renderDetailsPage() {
           <div class="details-content-wrapper">
             <div class="details-left">
               <div class="info-block">
-                <h3>Descrição</h3>
-                <p>${p.description}</p>
+                <h3>Sobre o imóvel</h3>
+                <p style="color:#555; line-height:1.8;">${p.description}</p>
               </div>
+              
+              ${plansHTML}
+
               <div class="info-block">
-                <h3>Características</h3>
-                <ul class="features-grid-list">${featuresHTML}</ul>
+                <h3>O que este lugar oferece</h3>
+                <div class="features-modern-grid">${featuresHTML}</div>
               </div>
-              <div class="info-block">
-                <h3>Localização</h3>
-                <div class="fake-map">
-                  <i class="fas fa-map-marked-alt"></i>
-                  <p>Visualização do mapa em: ${p.address}</p>
-                </div>
-              </div>
+
+              ${transportHTML}
             </div>
 
             <aside class="details-sidebar">
@@ -168,40 +201,54 @@ async function renderDetailsPage() {
                   <div><i class="fas fa-car"></i> ${p.parking}</div>
                 </div>
                 <button class="btn btn-primary btn-full" onclick="openSchedule('${p.id}')">
-                  <i class="fab fa-whatsapp"></i> Agendar Visita
+                  <i class="fab fa-whatsapp"></i> Entre em Contato
                 </button>
                 <a href="simulacao.html" class="btn btn-secondary btn-full" style="margin-top:10px;">Simular Financiamento</a>
               </div>
+              ${related.length > 0 ? `<div class="widget-related"><h3>Talvez você goste de:</h3><div class="mini-cards-list">${relatedHTML}</div></div>` : ''}
             </aside>
           </div>
         </div>
+        
+        <div id="photoModal" class="modal" onclick="this.classList.remove('show')">
+          <div class="modal-content" style="background:transparent; box-shadow:none; text-align:center; display:flex; justify-content:center;">
+             <img id="modalImgFull" src="" style="max-height:90vh; max-width:100%; border-radius:10px;">
+          </div>
+        </div>
       `;
+
   } catch (e) {
       console.error(e);
-      container.innerHTML = `<div class="container" style="padding:100px; text-align:center;">
-        <h2>Imóvel não encontrado ou Erro na API</h2>
-        <p>Verifique se o ID está correto ou se o backend está rodando.</p>
-        <a href="index.html" class="btn btn-primary">Voltar</a>
-      </div>`;
+      container.innerHTML = `<div class="container" style="padding:100px; text-align:center;"><h2>Erro ao carregar</h2><a href="index.html" class="btn btn-primary">Voltar</a></div>`;
   }
 }
 
-window.changeMainImage = (src) => { document.getElementById('mainImg').src = src; };
+// --- Helpers Globais ---
+window.openPhotoModal = (src) => {
+  const modal = document.getElementById('photoModal');
+  const img = document.getElementById('modalImgFull');
+  if(modal && img) { img.src = src; modal.classList.add('show'); }
+}
 
-// --- MODAIS & WHATSAPP ---
+function applySearchFilters() {
+  const loc = (document.getElementById('filterLocation')?.value || '').toLowerCase();
+  const type = document.getElementById('filterType')?.value || 'all';
+  const bed = parseInt(document.getElementById('filterBedrooms')?.value || '0');
+  const price = parseInt(document.getElementById('filterPrice')?.value || '0');
+  
+  const filtered = PROPERTIES.filter(p => {
+    const mLoc = p.location.toLowerCase().includes(loc) || p.title.toLowerCase().includes(loc);
+    const mType = type === 'all' || p.type === type;
+    const mBed = bed === 0 || p.bedrooms >= bed;
+    const mPrice = price === 0 || p.price <= price;
+    return mLoc && mType && mBed && mPrice;
+  });
+  renderGrid(filtered);
+}
+
 window.openSchedule = async (id) => {
-  // Se o usuário clicar em "Visitar", precisamos garantir que temos os dados
-  // Se estivermos na home, já temos o array PROPERTIES. Se for detalhes, buscamos de novo se necessário.
   let p = PROPERTIES.find(x => x.id === id);
-  
-  if (!p) {
-      // Fallback: Busca rapidinho na API caso não esteja em memória
-      try {
-          const res = await fetch(`${API_URL}/${id}`);
-          p = await res.json();
-      } catch(e) { return; }
-  }
-  
+  if (!p) { try { const res = await fetch(`${API_URL}/${id}`); p = await res.json(); } catch(e) { return; } }
   if (p) {
       document.getElementById('schedulePropertyTitle').textContent = p.title;
       document.getElementById('scheduleModal').classList.add('show');
@@ -212,44 +259,25 @@ function closeAllModals() {
   document.querySelectorAll('.modal').forEach(m => m.classList.remove('show'));
 }
 
-// --- INICIALIZAÇÃO (Onde tudo começa) ---
+// --- INICIALIZAÇÃO ---
 document.addEventListener('DOMContentLoaded', async () => {
-  
-  // 1. O site carrega e IMEDIATAMENTE vai buscar dados no Python
-  // O 'await' aqui garante que a gente espera os dados chegarem antes de desenhar
   await fetchProperties();
 
-  // 2. Configurações de Menu (Mobile)
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
   if(hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-  // 3. Verifica em qual página estamos para desenhar o conteúdo certo
   if (document.getElementById('details-container')) {
-    // Estamos na página de Detalhes
     renderDetailsPage(); 
   } else if (document.getElementById('propertiesGrid')) {
-    // Estamos na Home ou Busca
     if(window.location.pathname.includes('imoveis.html')) {
-       // Configura filtros da página de busca
        const params = new URLSearchParams(window.location.search);
        if(document.getElementById('filterLocation')) document.getElementById('filterLocation').value = params.get('loc') || '';
        if(document.getElementById('filterType')) document.getElementById('filterType').value = params.get('type') || 'all';
-       
-       ['filterLocation', 'filterType', 'filterBedrooms', 'filterPrice'].forEach(id => {
-         document.getElementById(id)?.addEventListener('input', applySearchFilters);
-       });
-       document.querySelector('.btn-clear')?.addEventListener('click', () => {
-          document.getElementById('filterLocation').value = '';
-          document.getElementById('filterType').value = 'all';
-          applySearchFilters();
-       });
-       applySearchFilters(); // Aplica filtros iniciais
+       ['filterLocation', 'filterType', 'filterBedrooms', 'filterPrice'].forEach(id => document.getElementById(id)?.addEventListener('input', applySearchFilters));
+       applySearchFilters();
     } else {
-      // Home: Mostra apenas os 3 primeiros (Destaques)
       renderGrid(PROPERTIES.slice(0, 3));
-      
-      // Configura botão de busca da Home
       const btnSearch = document.getElementById('btnSearch');
       if (btnSearch) {
         btnSearch.addEventListener('click', () => {
@@ -261,11 +289,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // 4. Listeners para fechar Modais
   document.querySelectorAll('.close-modal').forEach(b => b.addEventListener('click', closeAllModals));
   window.onclick = (e) => { if(e.target.classList.contains('modal')) closeAllModals(); };
 
-  // 5. Formulário de Agendamento (WhatsApp)
   const schedForm = document.getElementById('scheduleForm');
   if(schedForm) {
     schedForm.addEventListener('submit', (e) => {
@@ -274,14 +300,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       const date = document.getElementById('schedDate').value;
       const time = document.getElementById('schedTime').value;
       const propTitle = document.getElementById('schedulePropertyTitle').textContent;
-      
       const text = `Olá! Me chamo *${name}*. Gostaria de agendar visita no imóvel: *${propTitle}* para o dia ${date} às ${time}.`;
       window.open(`https://wa.me/558499998888?text=${encodeURIComponent(text)}`, '_blank');
       closeAllModals();
     });
   }
 
-  // 6. Formulário de Contato Geral
   const contactForm = document.getElementById('contactForm');
   if(contactForm) {
     contactForm.addEventListener('submit', (e) => {
@@ -289,9 +313,38 @@ document.addEventListener('DOMContentLoaded', async () => {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const msg = document.getElementById('message').value;
-      
       const text = `Olá! Me chamo *${name}* (${email}). Gostaria de falar sobre: ${msg}`;
       window.open(`https://wa.me/558499998888?text=${encodeURIComponent(text)}`, '_blank');
     });
+  }
+
+  const statsSection = document.getElementById('statsRow');
+  if (statsSection) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counters = document.querySelectorAll('.counter');
+          counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const duration = 2000; 
+            const increment = target / (duration / 16); 
+            
+            let current = 0;
+            const updateCounter = () => {
+              current += increment;
+              if (current < target) {
+                counter.textContent = Math.ceil(current);
+                requestAnimationFrame(updateCounter);
+              } else {
+                counter.textContent = target; 
+              }
+            };
+            updateCounter();
+          });
+          observer.unobserve(statsSection);
+        }
+      });
+    }, { threshold: 0.5 }); 
+    observer.observe(statsSection);
   }
 });

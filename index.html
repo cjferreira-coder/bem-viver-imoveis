@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bem Viver Imóveis | O lar onde sua melhor história começa</title>
-  <meta name="description" content="Bem Viver Imóveis: casas e apartamentos com financiamento facilitado em Natal/RN.">
+  <title>Clébia Oliveira | Transformando chaves em sonhos</title>
+  <meta name="description" content="Clébia Oliveira: Venda, aluguel e financiamento de imóveis em Natal/RN.">
+  
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
@@ -14,15 +15,16 @@
   <header class="site-header" role="banner">
     <div class="container">
       <nav class="navbar">
-        <a href="index.html" class="logo" aria-label="Bem Viver Home">
-          <i class="fas fa-home"></i> Bem Viver
+        <a href="index.html" class="logo" aria-label="Clébia Oliveira Home">
+          <i class="fas fa-home"></i> Clébia Oliveira
         </a>
         <button class="hamburger" id="hamburger" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
         <ul class="nav-links" id="navLinks">
           <li><a href="#home">Início</a></li>
           <li><a href="#about">Sobre</a></li>
           <li><a href="imoveis.html">Imóveis</a></li>
-          <li><a href="#services">Serviços</a></li>
+          <li><a href="#stories">Histórias</a></li>
+          <li><a href="#team">Equipe</a></li>
           <li><a href="#contact">Contato</a></li>
           <li><a href="simulacao.html" class="btn btn-primary">Simular</a></li>
         </ul>
@@ -33,9 +35,11 @@
   <section id="home" class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <span class="hero-tag">Bem-vindo à Bem Viver</span>
-      <h1>O cenário perfeito para a <br><span>sua nova história</span></h1>
-      <p>Milhares de opções de casas e apartamentos com financiamento facilitado.</p>
+      <span class="hero-tag">Clébia Oliveira</span>
+      
+      <h1>Transformando chaves <br><span>em sonhos</span></h1>
+      
+      <p>Venda, aluguel e financiamento de imóveis</p>
 
       <div class="hero-search">
         <div class="search-item">
@@ -64,40 +68,56 @@
     </div>
   </section>
 
-  <section id="about" class="about-premium">
+  <section id="about" class="about-modern">
     <div class="container">
-      <div class="about-wrapper">
-        <div class="about-image-comp">
-          <div class="pattern-grid"></div> 
-          <div class="main-image-frame">
-            <img src="hero-bg.jpg" alt="Imóvel de alto padrão" loading="lazy">
+      <div class="about-grid-layout">
+        
+        <div class="about-visuals">
+          <div class="img-main">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Imóvel de Luxo" loading="lazy">
           </div>
-          <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-award"></i></div>
-            <div class="stat-text">
-              <strong>Top 10</strong>
-              <span>Imobiliárias do RN</span>
-            </div>
+          <div class="img-secondary">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80" alt="Chaves na mão" loading="lazy">
+          </div>
+          <div class="floating-badge">
+            <i class="fas fa-certificate"></i>
+            <span>Excelência<br>Garantida</span>
           </div>
         </div>
-        <div class="about-text-content">
-          <span class="pre-title">Nossa Essência</span>
+
+        <div class="about-content">
+          <span class="pre-title">Por que Clébia Oliveira?</span>
           <h2>Muito mais que <br><span class="highlight">metros quadrados</span></h2>
           <p class="intro-text">
-            Não vendemos apenas imóveis; fazemos a curadoria do cenário onde suas melhores memórias nascem.
+            Entendemos que um imóvel não é apenas concreto e tijolo. É o cenário onde seus filhos vão crescer, onde você vai celebrar conquistas e construir memórias.
           </p>
-          <div class="features-list">
-            <div class="feature-row">
-              <div class="f-icon"><i class="far fa-smile"></i></div>
-              <div class="f-info"><h4>Atendimento Humanizado</h4><p>Ouvimos sua história para encontrar o lar certo.</p></div>
+          
+          <ul class="features-checklist">
+            <li><i class="fas fa-check-circle"></i> Curadoria rigorosa de imóveis</li>
+            <li><i class="fas fa-check-circle"></i> Assessoria jurídica completa</li>
+            <li><i class="fas fa-check-circle"></i> Aprovação de crédito em 24h</li>
+          </ul>
+
+          <div class="stats-row" id="statsRow">
+            <div class="stat-item">
+              <h3 class="counter" data-target="10">0</h3>
+              <p>Anos de <br>História</p>
             </div>
-            <div class="feature-row">
-              <div class="f-icon"><i class="fas fa-search-dollar"></i></div>
-              <div class="f-info"><h4>Transparência Total</h4><p>Processos jurídicos claros e seguros.</p></div>
+            <div class="stat-item">
+              <h3 class="counter" data-target="850">0</h3>
+              <p>Chaves <br>Entregues</p>
+            </div>
+            <div class="stat-item">
+              <h3 class="counter" data-target="98">0</h3>
+              <p>% Clientes <br>Satisfeitos</p>
             </div>
           </div>
-          <a href="#contact" class="btn btn-primary btn-lg">Falar com consultor</a>
+
+          <a href="#contact" class="btn btn-primary btn-lg" style="margin-top:30px;">
+            Falar com um especialista
+          </a>
         </div>
+
       </div>
     </div>
   </section>
@@ -115,6 +135,132 @@
     </div>
   </section>
 
+  <section id="stories" class="stories-section">
+    <div class="container">
+      <div class="section-title">Histórias Reais</div>
+      <p class="section-subtitle">Veja quem já realizou o sonho da casa própria com Clébia Oliveira.</p>
+      
+      <div class="stories-slider">
+        <div class="story-card placeholder-card" style="background-color:#888;">
+          <div class="story-overlay">
+            <div class="play-btn-pulse"><i class="fas fa-play"></i></div>
+            <div class="story-content">
+              <h3>Tour pelo <span class="highlight-text">APÊ</span></h3>
+              <p>com Mariane e Thaylon</p>
+            </div>
+          </div>
+        </div>
+        <div class="story-card placeholder-card" style="background-color:#888;">
+          <div class="story-overlay">
+            <div class="play-btn-pulse"><i class="fas fa-play"></i></div>
+            <div class="story-content">
+              <h3>Chaves na <span class="highlight-text">MÃO</span></h3>
+              <p>com Família Oliveira</p>
+            </div>
+          </div>
+        </div>
+        <div class="story-card placeholder-card" style="background-color:#888;">
+          <div class="story-overlay">
+            <div class="play-btn-pulse"><i class="fas fa-play"></i></div>
+            <div class="story-content">
+              <h3>Meu <span class="highlight-text">DECORADO</span></h3>
+              <p>Inspiração Apê 402</p>
+            </div>
+          </div>
+        </div>
+        <div class="story-card placeholder-card" style="background-color:#888;">
+          <div class="story-overlay">
+            <div class="play-btn-pulse"><i class="fas fa-play"></i></div>
+            <div class="story-content">
+              <h3>Diário de <span class="highlight-text">OBRA</span></h3>
+              <p>Condomínio Jardins</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stories-indicators">
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="team-section">
+    <div class="container">
+      <div class="section-title">Nossa Equipe</div>
+      <p class="section-subtitle">Especialistas prontos para encontrar o seu lugar no mundo.</p>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80" alt="Carlos Eduardo" loading="lazy">
+            <div class="member-socials">
+              <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="member-info">
+            <h3>Carlos Eduardo</h3>
+            <span class="member-role">Diretor Comercial</span>
+            <div class="member-line"></div>
+            <p>Especialista em alto padrão com 10 anos de mercado.</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80" alt="Ana Beatriz" loading="lazy">
+            <div class="member-socials">
+              <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="member-info">
+            <h3>Ana Beatriz</h3>
+            <span class="member-role">Gerente de Vendas</span>
+            <div class="member-line"></div>
+            <p>Focada em encontrar o primeiro apê dos sonhos.</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&q=80" alt="Roberto Silva" loading="lazy">
+            <div class="member-socials">
+              <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="member-info">
+            <h3>Roberto Silva</h3>
+            <span class="member-role">Consultor Financeiro</span>
+            <div class="member-line"></div>
+            <p>O mestre em aprovar financiamentos complexos.</p>
+          </div>
+        </div>
+         <div class="team-card">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80" alt="Fernanda Lima" loading="lazy">
+            <div class="member-socials">
+              <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="member-info">
+            <h3>Fernanda Lima</h3>
+            <span class="member-role">Arquiteta Parceira</span>
+            <div class="member-line"></div>
+            <p>Ajuda você a visualizar o potencial de cada imóvel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-premium">
     <div class="cta-overlay"></div>
     <div class="container">
@@ -126,54 +272,89 @@
     </div>
   </section>
 
-  <section id="contact" class="contact-modern-section">
+  <section id="contact" class="contact-premium-section">
+    <div class="contact-bg-decoration"></div>
+
     <div class="container">
-      <div class="contact-wrapper">
-        <div class="contact-info-box">
-          <h3>Fale conosco</h3>
-          <p class="info-desc">Estamos prontos para atender você.</p>
-          <div class="info-item">
-            <div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div>
-            <div><strong>Nosso Escritório</strong><span>Rua das Flores, 123 - Tirol</span></div>
-          </div>
-          <div class="info-item">
-            <div class="icon-circle"><i class="fas fa-phone-alt"></i></div>
-            <div><strong>Telefone</strong><span>(84) 4002-8922</span></div>
-          </div>
-          <div class="social-row">
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
+      <div class="contact-wrapper-premium">
+        
+        <div class="contact-info-premium">
+          <div class="info-pattern"></div>
+          
+          <div class="info-content">
+            <h3>Vamos conversar?</h3>
+            <p class="info-desc">Seu novo endereço está esperando por você. Mande um oi!</p>
+            
+            <div class="info-items">
+              <div class="info-row">
+                <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                  <span class="label">Visite-nos</span>
+                  <strong>Rua das Flores, 123 - Tirol</strong>
+                </div>
+              </div>
+              
+              <div class="info-row">
+                <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                <div>
+                  <span class="label">Ligue agora</span>
+                  <strong>(84) 4002-8922</strong>
+                </div>
+              </div>
+              
+              <div class="info-row">
+                <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                <div>
+                  <span class="label">E-mail</span>
+                  <strong>contato@clebiaoliveira.com</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="social-links-premium">
+              <p>Siga a Clébia Oliveira:</p>
+              <div class="links">
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="contact-form-box">
+        <div class="contact-form-premium">
           <h3>Envie uma mensagem</h3>
           <form id="contactForm">
-            <div class="input-group">
-              <label for="name">Nome completo</label>
-              <input type="text" id="name" required placeholder="Digite seu nome">
+            <div class="form-grid">
+              <div class="input-modern">
+                <label for="name">Nome completo</label>
+                <input type="text" id="name" required placeholder="Ex: João da Silva">
+              </div>
+              <div class="input-modern">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" required placeholder="Ex: joao@email.com">
+              </div>
             </div>
-            <div class="input-group">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" required placeholder="seu@email.com">
+            
+            <div class="input-modern">
+              <label for="message">Como podemos ajudar?</label>
+              <textarea id="message" rows="4" required placeholder="Gostaria de agendar uma visita no imóvel..."></textarea>
             </div>
-            <div class="input-group">
-              <label for="message">Mensagem</label>
-              <textarea id="message" rows="4" required placeholder="Gostaria de saber mais sobre..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-full">
-              Enviar Mensagem <i class="fas fa-paper-plane"></i>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:10px;">
+              Enviar Mensagem <i class="fas fa-paper-plane" style="margin-left:8px;"></i>
             </button>
           </form>
         </div>
+
       </div>
     </div>
   </section>
 
   <footer>
     <div class="container">
-      <a href="index.html" class="logo"><i class="fas fa-home"></i> Bem Viver</a>
-      <p>&copy; 2025 Bem Viver Imóveis. Todos os direitos reservados.</p>
+      <a href="index.html" class="logo"><i class="fas fa-home"></i> Clébia Oliveira</a>
+      <p>&copy; 2026 Clébia Oliveira Imóveis. Todos os direitos reservados.</p>
     </div>
   </footer>
 
@@ -184,7 +365,7 @@
 
   <div id="scheduleModal" class="modal">
     <div class="modal-content" style="max-width:500px;">
-      <span class="close-modal">&times;</span>
+      <span class="close-modal">×</span>
       <div class="modal-header" style="height:100px; background: var(--primary-color); display:flex; align-items:center; justify-content:center;">
         <h2 style="color:#fff; margin:0; font-size:1.4rem;"><i class="far fa-calendar-alt"></i> Agendar Visita</h2>
       </div>
