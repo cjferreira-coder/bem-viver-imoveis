@@ -1,5 +1,5 @@
 /* =========================================
-   BEM VIVER IMÓVEIS - ESTILO COMPLETO (FINAL V4)
+   CLÉBIA OLIVEIRA - ESTILO COMPLETO (FINAL V5)
    ========================================= */
 
 /* --- 1. VARIÁVEIS E RESET --- */
@@ -14,7 +14,6 @@
   --white: #ffffff;
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
-  --glass-bg: rgba(255, 255, 255, 0.95);
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -75,7 +74,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .btn-search { background: var(--primary-color); color: var(--white); border: none; padding: 15px 30px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition); }
 .btn-search:hover { background: var(--primary-dark); }
 
-/* --- 5. SESSÃO SOBRE: MODERN & ASSYMETRIC --- */
+/* --- 5. SESSÃO SOBRE --- */
 .about-modern { padding: 100px 0; background-color: #fff; overflow: visible; }
 .about-grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .about-visuals { position: relative; height: 550px; }
@@ -99,7 +98,122 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .stat-item h3::after { content: '+'; color: var(--accent-color); font-size: 1.8rem; vertical-align: super; }
 .stat-item p { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #888; font-weight: 600; line-height: 1.4; }
 
-/* --- 6. CTA PREMIUM --- */
+/* --- 6. SESSÃO HISTÓRIAS: CINEMA MODE (FULL WIDTH) --- */
+.immersive-stories {
+  position: relative;
+  background-color: #000;
+  padding: 0; /* Full Width */
+  height: 85vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Flutuante */
+.stories-header-overlay {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+}
+.stories-header-overlay h2 { color: #fff; font-size: 2.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 5px; }
+.stories-header-overlay p { color: rgba(255,255,255,0.8); font-size: 1.1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+/* Slider */
+.full-video-slider {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.full-video-slider::-webkit-scrollbar { display: none; }
+
+/* Slide Individual */
+.video-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  scroll-snap-align: center;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+}
+
+.slide-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+  z-index: 1;
+}
+
+/* Conteúdo Slide */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  padding: 60px 5%;
+  max-width: 800px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.tag-story {
+  display: inline-block;
+  background: var(--accent-color);
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.slide-content h3 { color: #fff; font-size: 3rem; line-height: 1.1; margin-bottom: 15px; font-weight: 700; }
+.slide-content p { color: rgba(255,255,255,0.9); font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; line-height: 1.6; }
+
+/* Botão Play */
+.btn-play-large {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 15px 35px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-play-large:hover { background: var(--accent-color); border-color: var(--accent-color); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.btn-play-large i { font-size: 1.2rem; }
+
+/* Indicador */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  animation: pulseWhite 2s infinite;
+}
+
+/* --- 7. CTA PREMIUM --- */
 .cta-premium { background: url('hero-bg.jpg') center/cover no-repeat fixed; padding: 100px 0; position: relative; text-align: center; color: #fff; }
 .cta-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(133, 50, 95, 0.9), rgba(244, 153, 53, 0.8)); }
 .cta-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
@@ -108,7 +222,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .btn-light-pulse { background: #fff; color: var(--primary-color); padding: 15px 35px; border-radius: 50px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); animation: pulseWhite 2s infinite; }
 .btn-light-pulse:hover { transform: translateY(-3px); background: #f0f0f0; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-/* --- 7. CONTATO PREMIUM --- */
+/* --- 8. CONTATO PREMIUM --- */
 .contact-premium-section { padding: 100px 0; background-color: #fff; position: relative; overflow: hidden; }
 .contact-bg-decoration { position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(244, 153, 53, 0.08) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; z-index: 1; pointer-events: none; }
 .contact-wrapper-premium { display: grid; grid-template-columns: 4fr 6fr; background: #fff; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.12); position: relative; z-index: 2; border: 1px solid rgba(0,0,0,0.02); }
@@ -137,7 +251,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .input-modern input:focus, .input-modern textarea:focus { background: #fff; border-color: var(--accent-color); box-shadow: 0 4px 15px rgba(244, 153, 53, 0.15); outline: none; }
 .input-modern input::placeholder, .input-modern textarea::placeholder { color: #aaa; font-weight: 400; }
 
-/* --- 8. PÁGINA DE SIMULAÇÃO --- */
+/* --- 9. PÁGINA DE SIMULAÇÃO --- */
 .simulation-hero { background: url('hero-bg.jpg') center/cover no-repeat fixed; padding: 120px 0 80px; position: relative; min-height: 100vh; display: flex; align-items: center; }
 .sim-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(44, 16, 31, 0.9), rgba(44, 16, 31, 0.7)); }
 .sim-header { position: relative; z-index: 2; text-align: center; color: #fff; margin-bottom: 40px; }
@@ -167,7 +281,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .btn-outline-white { display: block; width: 100%; padding: 12px; text-align: center; border: 2px solid rgba(255,255,255,0.3); border-radius: 50px; color: #fff; font-weight: 600; transition: var(--transition); }
 .btn-outline-white:hover { background: #fff; color: var(--primary-color); }
 
-/* --- 9. COMPONENTES (Cards Imóveis, Busca, etc) --- */
+/* --- 10. COMPONENTES (Cards Imóveis, Busca, etc) --- */
 .properties-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 10px 0; }
 .property-card { background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; position: relative; }
 .property-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); }
@@ -183,7 +297,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .property-actions { margin-top: auto; display: flex; gap: 10px; padding-top: 15px; border-top: 1px solid #eee; }
 .property-actions .btn { flex: 1; font-size: 0.85rem; padding: 10px; }
 
-/* --- 10. MODAIS --- */
+/* --- 11. MODAIS --- */
 .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
 .modal.show { display: flex; opacity: 1; }
 .modal-content { background: var(--white); width: 90%; max-width: 700px; border-radius: 20px; overflow: hidden; position: relative; max-height: 90vh; overflow-y: auto; border: none; }
@@ -191,7 +305,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .close-modal:hover { background: #fff; transform: rotate(90deg); color: #e74c3c; }
 .modal-body { padding: 30px 40px; }
 
-/* --- 11. PÁGINA DE BUSCA (Layout) --- */
+/* --- 12. PÁGINA DE BUSCA (Layout) --- */
 .search-page { padding-top: 100px; background-color: var(--bg-color); min-height: 95vh; }
 .search-page-layout { display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
 .sidebar { background-color: #fff; padding: 30px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: fit-content; position: sticky; top: 100px; }
@@ -206,7 +320,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .results-count { color: #888; }
 .footer { background-color: #222; color: #ccc; text-align: center; padding: 40px 0; }
 
-/* --- 12. ESTILOS DA PÁGINA DE DETALHES --- */
+/* --- 13. ESTILOS DA PÁGINA DE DETALHES --- */
 .details-page-wrapper { padding-top: 100px; padding-bottom: 60px; background: #f8f9fa; min-height: 100vh; }
 .details-header { margin-bottom: 30px; }
 .details-header h1 { color: var(--primary-color); font-size: 2.2rem; margin: 10px 0; }
@@ -277,26 +391,7 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
 .price-card .btn-secondary.btn-full { width: 100%; padding: 15px; margin-top: 15px; background: transparent; border: 2px solid #e0e0e0; color: #666; font-weight: 600; border-radius: 12px; transition: all 0.3s ease; }
 .price-card .btn-secondary.btn-full:hover { border-color: var(--primary-color); color: var(--primary-color); background: rgba(133, 50, 95, 0.05); transform: translateY(-2px); }
 
-/* --- 13. SESSÃO HISTÓRIAS (TOUR PELO APÊ) --- */
-.stories-section { background-color: #fff; padding-bottom: 60px; overflow: hidden; }
-.stories-slider { display: flex; gap: 20px; overflow-x: auto; padding: 20px 5px 40px 5px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-.stories-slider::-webkit-scrollbar { display: none; }
-.story-card { min-width: 280px; height: 450px; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); scroll-snap-align: center; transition: transform 0.3s ease; cursor: pointer; background-color: #888; }
-.story-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(133, 50, 95, 0.25); }
-.story-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
-.story-card:hover img { transform: scale(1.1); }
-.story-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%); display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 30px; text-align: center; }
-.play-btn-pulse { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; transition: all 0.3s ease; }
-.story-card:hover .play-btn-pulse { background: var(--accent-color); border-color: var(--accent-color); transform: translate(-50%, -50%) scale(1.2); }
-.story-content { width: 100%; transform: translateY(0); transition: transform 0.3s ease; }
-.story-content h3 { color: #fff; font-size: 1.4rem; line-height: 1.2; margin-bottom: 5px; font-weight: 400; }
-.story-content .highlight-text { font-weight: 800; color: var(--accent-color); text-transform: uppercase; font-style: italic; }
-.story-content p { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; margin: 0; }
-.stories-indicators { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
-.stories-indicators span { width: 40px; height: 4px; background: #eee; border-radius: 2px; }
-.stories-indicators span.active { background: var(--accent-color); }
-
-/* --- 14. SESSÃO NOSSA EQUIPE (TEAM) --- */
+/* --- 14. NOSSA EQUIPE (TEAM) --- */
 .team-section { background-color: #fff; padding-bottom: 80px; }
 .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; padding: 10px; }
 .team-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(0,0,0,0.03); text-align: center; }
@@ -342,7 +437,12 @@ header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(1
   .gallery-mosaic { display: flex; overflow-x: auto; height: 300px; grid-template-rows: none; grid-template-columns: none; scroll-snap-type: x mandatory; }
   .gallery-item { min-width: 90%; scroll-snap-align: center; border-radius: 10px; }
   .gallery-item:nth-child(1) { grid-column: auto; grid-row: auto; }
-  .story-card { min-width: 80vw; height: 400px; }
+  /* Ajuste no Immersive Stories para Mobile */
+  .immersive-stories { height: 70vh; }
+  .stories-header-overlay { top: 20px; padding: 0 20px; }
+  .stories-header-overlay h2 { font-size: 1.8rem; }
+  .slide-content h3 { font-size: 2rem; }
+  .slide-content p { font-size: 1rem; }
 }
 
 /* Animações Keyframes */

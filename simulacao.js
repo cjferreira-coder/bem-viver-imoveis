@@ -1,100 +1,92 @@
 /* =========================================
-   Simulação de Financiamento - Sistema Price
-   Com Sliders e Atualização em Tempo Real
+   LÓGICA DO SIMULADOR FINANCEIRO
    ========================================= */
 
-const formatBR = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // Se o formulário de financiamento não existir na página, para a execução
-  if (!document.getElementById('financingForm')) return;
-
-  // Elementos do DOM
-  const elVal = document.getElementById('propertyValue');
-  const elValRange = document.getElementById('propertyRange');
-  
-  const elDown = document.getElementById('downPayment');
-  const elDownRange = document.getElementById('downRange');
-  
-  const elYears = document.getElementById('years');
-  const elYearsRange = document.getElementById('yearsRange');
-  
-  const elRate = document.getElementById('interestRate');
-
-  // Elementos de Resultado
-  const resMonthly = document.getElementById('resMonthlyPayment');
-  const resLoan = document.getElementById('resLoanAmount');
-  const resIncome = document.getElementById('resMinIncome');
-  const resMonths = document.getElementById('resMonths');
-
-  // Função Principal de Cálculo
-  function calculate() {
-    const price = parseFloat(elVal.value);
-    const down = parseFloat(elDown.value);
-    const years = parseFloat(elYears.value);
-    const rate = parseFloat(elRate.value);
-
-    // Validação simples
-    if (!price || !years || !rate || isNaN(price) || isNaN(down)) return;
-
-    // Lógica Price Simples
-    const principal = price - down;
-    const months = years * 12;
-    const monthlyRate = rate / 12 / 100;
     
-    let monthlyPayment = 0;
-    
-    if (principal <= 0) {
-      monthlyPayment = 0;
-    } else if (monthlyRate === 0) {
-      monthlyPayment = principal / months;
-    } else {
-      monthlyPayment = principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
+    // Elementos do DOM
+    const propValueInput = document.getElementById('propValue');
+    const downPaymentInput = document.getElementById('downPayment');
+    const interestRateInput = document.getElementById('interestRate');
+    const yearsInput = document.getElementById('years');
+    const yearsSlider = document.getElementById('yearsSlider');
+    const amortizationSelect = document.getElementById('amortization');
+    const btnCalculate = document.getElementById('btnCalculate');
+
+    // Elementos de Resultado
+    const resFirst = document.getElementById('resFirstInstallment');
+    const resLast = document.getElementById('resLastInstallment');
+    const resLoan = document.getElementById('resLoanAmount');
+    const resMonths = document.getElementById('resMonths');
+    const resIncome = document.getElementById('resIncome');
+
+    // Sincronizar Slider com Input de Anos
+    yearsSlider.addEventListener('input', (e) => {
+        yearsInput.value = e.target.value;
+        calculate(); // Calcula em tempo real ao arrastar
+    });
+    yearsInput.addEventListener('input', (e) => {
+        yearsSlider.value = e.target.value;
+    });
+
+    // Função de Formatação Moeda
+    const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    // Função Principal de Cálculo
+    function calculate() {
+        const value = parseFloat(propValueInput.value) || 0;
+        const entry = parseFloat(downPaymentInput.value) || 0;
+        const rateAnual = parseFloat(interestRateInput.value) || 0;
+        const years = parseFloat(yearsInput.value) || 0;
+        const system = amortizationSelect.value;
+
+        // Validações básicas
+        if (value <= 0 || years <= 0) return;
+
+        const loanAmount = value - entry;
+        const months = years * 12;
+        const rateMonthly = Math.pow(1 + (rateAnual / 100), 1 / 12) - 1; // Conversão Juros Anual -> Mensal
+
+        let firstInstallment = 0;
+        let lastInstallment = 0;
+
+        if (loanAmount <= 0) {
+            alert("O valor da entrada não pode ser maior que o valor do imóvel.");
+            return;
+        }
+
+        if (system === 'SAC') {
+            // CÁLCULO SAC (Sistema de Amortização Constante)
+            const amortization = loanAmount / months;
+            
+            // Primeira parcela: Amortização + Juros sobre o saldo total
+            firstInstallment = amortization + (loanAmount * rateMonthly);
+            
+            // Última parcela: Amortização + Juros sobre o último saldo (aprox 1 amortização)
+            // Fórmula genérica parcela N: Amort + (SaldoDevedor * Juros)
+            lastInstallment = amortization + (amortization * rateMonthly);
+
+        } else {
+            // CÁLCULO PRICE (Parcelas Fixas - Fórmula PMT)
+            // PMT = PV * ( i * (1+i)^n ) / ( (1+i)^n - 1 )
+            firstInstallment = loanAmount * ( (rateMonthly * Math.pow(1 + rateMonthly, months)) / (Math.pow(1 + rateMonthly, months) - 1) );
+            lastInstallment = firstInstallment; // Na Price é fixa
+        }
+
+        // Regra de bolso: A parcela não deve exceder 30% da renda
+        const recommendedIncome = firstInstallment / 0.30;
+
+        // Atualizar Tela
+        resFirst.textContent = fmt(firstInstallment);
+        resLast.textContent = fmt(lastInstallment);
+        resLoan.textContent = fmt(loanAmount);
+        resMonths.textContent = `${months} meses`;
+        resIncome.textContent = fmt(recommendedIncome);
     }
-    
-    // Evitar valores negativos visuais
-    if (monthlyPayment < 0) monthlyPayment = 0;
-    
-    // Sugestão de Renda (30% da renda comprometida)
-    const minIncome = monthlyPayment / 0.3;
 
-    // Atualiza a Interface (UI)
-    if (resMonthly) resMonthly.innerText = formatBR(monthlyPayment);
-    if (resLoan) resLoan.innerText = formatBR(principal > 0 ? principal : 0);
-    if (resIncome) resIncome.innerText = formatBR(minIncome);
-    if (resMonths) resMonths.innerText = `${months} meses`;
-  }
+    // Evento de clique no botão
+    btnCalculate.addEventListener('click', calculate);
 
-  // Função para sincronizar Input de Texto <-> Slider (Range)
-  function syncInputs(input, range) {
-    // Quando digita no campo texto
-    input.addEventListener('input', () => {
-      range.value = input.value;
-      calculate();
-    });
-    
-    // Quando arrasta o slider
-    range.addEventListener('input', () => {
-      input.value = range.value;
-      calculate();
-    });
-  }
-
-  // Inicializa a sincronização dos campos
-  if (elVal && elValRange) syncInputs(elVal, elValRange);
-  if (elDown && elDownRange) syncInputs(elDown, elDownRange);
-  if (elYears && elYearsRange) syncInputs(elYears, elYearsRange);
-  
-  // Escuta mudanças na taxa de juros
-  if (elRate) elRate.addEventListener('input', calculate);
-  
-  // Previne o refresh da página ao dar Enter
-  document.getElementById('financingForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+    // Calcular automaticamente na carga inicial
     calculate();
-  });
-
-  // Realiza o cálculo inicial ao carregar a página
-  calculate();
 });
